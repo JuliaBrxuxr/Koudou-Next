@@ -8,6 +8,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="TechnicalTest" />
         <module name="Backend" />
+        <module name="Controller" />
+        <module name="Engine" />
       </profile>
     </annotationProcessing>
   </component>

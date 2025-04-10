@@ -6,6 +6,8 @@
       <list>
         <option value="$PROJECT_DIR$/Backend/pom.xml" />
         <option value="$PROJECT_DIR$/TechnicalTest/pom.xml" />
+        <option value="$PROJECT_DIR$/SimulationCore/Controller/pom.xml" />
+        <option value="$PROJECT_DIR$/SimulationCore/Engine/pom.xml" />
       </list>
     </option>
   </component>
