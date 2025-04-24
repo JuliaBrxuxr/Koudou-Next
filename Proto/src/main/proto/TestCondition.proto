@@ -1,7 +1,0 @@
-syntax = "proto3";
-option java_package = "jp.ac.tsukuba.eclab.koudounext.test.protobuf";
-
-message TestCondition{
-  string ConditionName = 1;
-  string Attribute = 2;
-  }

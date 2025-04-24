@@ -1,0 +1,11 @@
+syntax = "proto3";
+option java_package = "jp.ac.tsukuba.eclab.koudounext.proto.objects";
+
+import "objects/TestCondition.proto";
+
+message TestAgent {
+  string TypeUuid = 1;
+  string AgentUuid = 2;
+  string AgentName = 3;
+  repeated TestCondition Conditions = 4;
+}

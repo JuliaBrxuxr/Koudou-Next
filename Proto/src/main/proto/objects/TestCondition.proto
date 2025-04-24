@@ -1,0 +1,8 @@
+syntax = "proto3";
+option java_package = "jp.ac.tsukuba.eclab.koudounext.proto.objects";
+
+message TestCondition{
+  string TypeUuid = 1;
+  string ConditionName = 2;
+  string Attribute = 3;
+  }

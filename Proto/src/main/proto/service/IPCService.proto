@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option java_package = "jp.ac.tsukuba.eclab.koudounext.proto.service";
+option java_multiple_files = true;
+
+service IPCService {
+  rpc sendIPC (IPCRequest) returns (IPCResponse);
+}
+
+enum IPCSerializationType {
+  PROTOBUF = 0;
+  JSON = 1;
+  PICKLE = 2;
+  JAVA_SERIALIZED = 3;
+  AVRO = 4;
+  MSGPACK = 5;
+}
+
+enum IPCResponseStatus {
+  CONTINUE = 0;
+  SUCCESS = 1;
+  CREATED = 2;
+  ACCEPTED = 3;
+  BAD_REQUEST = 4;
+  FORBIDDEN = 5;
+  NOT_FOUND = 6;
+  NOT_ACCEPTABLE = 7;
+  REQUEST_TIMEOUT = 8;
+  GONE = 9;
+  PAYLOAD_TOO_LARGE = 10;
+  TOO_MANY_REQUESTS = 11;
+  INTERNAL_SERVER_ERROR = 12;
+  SERVICE_UNAVAILABLE = 13;
+  RESPONSE_TIMEOUT = 14;
+}
+
+message IPCRequest {
+  IPCSerializationType type = 1;
+  bytes payload = 2;
+  map<string, string> meta = 3;
+}
+
+message IPCResponse {
+  IPCResponseStatus status = 1;
+}

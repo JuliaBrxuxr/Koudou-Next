@@ -9,6 +9,7 @@
         <module name="TechnicalTest" />
         <module name="Backend" />
         <module name="Controller" />
+        <module name="Proto" />
         <module name="Engine" />
       </profile>
     </annotationProcessing>
