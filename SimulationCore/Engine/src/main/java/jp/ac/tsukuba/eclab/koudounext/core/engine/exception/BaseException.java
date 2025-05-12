@@ -1,8 +1,10 @@
 package jp.ac.tsukuba.eclab.koudounext.core.engine.exception;
 
 public class BaseException extends RuntimeException {
-    BaseException(){}
-    BaseException(String message) {
+    public BaseException(){
+        super("Koudou Exception");
+    }
+    public BaseException(String message) {
         super(message);
     }
 }

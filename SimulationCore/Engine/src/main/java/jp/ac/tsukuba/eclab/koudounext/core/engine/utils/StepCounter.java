@@ -1,7 +1,7 @@
 package jp.ac.tsukuba.eclab.koudounext.core.engine.utils;
 
-import jp.ac.tsukuba.eclab.koudounext.core.engine.exception.OverMaxStepException;
-import jp.ac.tsukuba.eclab.koudounext.core.engine.exception.UnableGoPreviousOverFirstStepException;
+import jp.ac.tsukuba.eclab.koudounext.core.engine.exception.simulation.SimulationOverMaxStepException;
+import jp.ac.tsukuba.eclab.koudounext.core.engine.exception.simulation.SimulationUnableGoPreviousOverFirstStepException;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -13,23 +13,23 @@ public class StepCounter {
         MAX_STEP_COUNT = maxStepCount;
     }
 
-    public int increaseStepCount() {
+    public void increaseStepCount() {
         if (mSteps.get() > MAX_STEP_COUNT - 1) {
-            throw new OverMaxStepException();
+            throw new SimulationOverMaxStepException();
         }
-        return mSteps.incrementAndGet();
+        mSteps.incrementAndGet();
     }
 
     public void decreaseStepCount() {
         if (mSteps.get() < 1) {
-            throw new UnableGoPreviousOverFirstStepException();
+            throw new SimulationUnableGoPreviousOverFirstStepException();
         }
         mSteps.decrementAndGet();
     }
 
     public void decreaseStepCount(int offset){
         if (mSteps.get() - offset < 0) {
-            throw new UnableGoPreviousOverFirstStepException();
+            throw new SimulationUnableGoPreviousOverFirstStepException();
         }
         mSteps.set(mSteps.get() - offset);
     }
