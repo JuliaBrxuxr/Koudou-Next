@@ -11,7 +11,7 @@ public class SimulationController {
     private ModuleManager mModuleManager;
 
     public SimulationController() {
-        mModuleManager = new ModuleManager();
+        mModuleManager = ModuleManager.getInstance();
     }
 
     public void init(SimulationConfig config) {

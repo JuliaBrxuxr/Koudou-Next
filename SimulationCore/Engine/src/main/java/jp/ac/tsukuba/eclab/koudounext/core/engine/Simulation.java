@@ -12,7 +12,7 @@ public class Simulation {
 
 
         // TODO: DELETE CODE UNDER HERE WHEN DEVELOPMENT OVER!!! THEY ARE JUST FOR TESTING!!!
-        SimulationController controller = new SimulationController();
+        SimulationController controller = SimulationController.getInstance();
         SimulationConfig config = new SimulationConfig();
         config.setMaxStep(100);
         config.setStepIntervalMillisecond(50);

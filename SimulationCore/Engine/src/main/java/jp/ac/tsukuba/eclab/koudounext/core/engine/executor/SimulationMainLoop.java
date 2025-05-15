@@ -32,7 +32,6 @@ public class SimulationMainLoop {
         if (!mState.equals(SimulationState.PAUSED)) {
             throw new SimulationNotPausedException();
         }
-
         mExecutor.step();
     }
 

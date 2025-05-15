@@ -1,5 +1,6 @@
 package jp.ac.tsukuba.eclab.koudounext.core.engine.modules;
 
-public interface IModuleLoader {
+public interface IModuleManager {
     public boolean load();
+    public boolean step();
 }
