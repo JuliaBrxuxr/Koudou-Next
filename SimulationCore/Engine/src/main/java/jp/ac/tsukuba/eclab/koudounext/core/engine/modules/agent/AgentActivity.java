@@ -1,4 +1,6 @@
 package jp.ac.tsukuba.eclab.koudounext.core.engine.modules.agent;
 
-public class AgentActivity {
+import java.io.Serializable;
+
+public class AgentActivity implements Serializable {
 }

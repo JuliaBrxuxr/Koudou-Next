@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/SimulationCore/Controller/pom.xml" />
         <option value="$PROJECT_DIR$/SimulationCore/Engine/pom.xml" />
         <option value="$PROJECT_DIR$/Proto/pom.xml" />
+        <option value="$PROJECT_DIR$/Cache/pom.xml" />
       </list>
     </option>
   </component>

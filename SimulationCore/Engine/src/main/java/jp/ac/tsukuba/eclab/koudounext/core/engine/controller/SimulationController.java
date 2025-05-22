@@ -5,13 +5,21 @@ import jp.ac.tsukuba.eclab.koudounext.core.engine.executor.SimulationMainLoop;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.ModuleManager;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.utils.SimulationConfig;
 
+import java.util.UUID;
+
 public class SimulationController {
     private static volatile SimulationController instance = null;
     private SimulationMainLoop mLoop = null;
     private ModuleManager mModuleManager;
+    private final String TASK_UUID;
 
     public SimulationController() {
         mModuleManager = ModuleManager.getInstance();
+        TASK_UUID = UUID.randomUUID().toString();
+    }
+
+    public String getTaskUUID() {
+        return TASK_UUID;
     }
 
     public void init(SimulationConfig config) {

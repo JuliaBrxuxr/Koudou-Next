@@ -1,9 +1,10 @@
 package jp.ac.tsukuba.eclab.koudounext.core.engine.modules.agent;
 
 import javax.management.ObjectName;
+import java.io.Serializable;
 import java.util.*;
 
-public class AgentType {
+public class AgentType implements Serializable {
     private String mAgentName = "";
     private Map<String,String> mAttributes = new HashMap<>();
     private Map<String,Object> mDefaultValues = new HashMap<>();

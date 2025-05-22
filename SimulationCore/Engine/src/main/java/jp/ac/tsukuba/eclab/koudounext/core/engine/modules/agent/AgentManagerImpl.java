@@ -1,5 +1,6 @@
 package jp.ac.tsukuba.eclab.koudounext.core.engine.modules.agent;
 
+import jp.ac.tsukuba.eclab.koudounext.core.engine.manager.status.StatusManager;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.IModuleManager;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.test.AgentsUI;
 import org.json.JSONArray;
@@ -14,15 +15,11 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 
 public class AgentManagerImpl implements IModuleManager {
-    private List<AgentObject> mAgents;
     private Map<String, AgentType> mAgentTypes;
     private final ExecutorService mThreadPool;
 
-    //TODO: This is a json just for testing
-    private String mTestingJsonConfig = "";
-
     public AgentManagerImpl(ExecutorService threadPool) {
-        this.mAgents = new ArrayList<>();
+        StatusManager.getInstance().getStatus().setAgents(new ArrayList<>());
         this.mAgentTypes = new HashMap<>();
         mThreadPool = threadPool;
     }
@@ -68,14 +65,14 @@ public class AgentManagerImpl implements IModuleManager {
             }
             mAgentTypes.put(agentType.getAgentName(), agentType);
         }
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             AgentType agentType = mAgentTypes.get("Zombie");
             AgentObject agent = new AgentObject(agentType);
             Map<String, String> attributes = agentType.getAttributes();
             for (String attribute : attributes.keySet()) {
-                agent.addAttribute(attribute, agentType.getAttributeDefaultValue(attribute));
+                agent.addAttribute(attribute, (Math.random()+4) * 50);
             }
-            mAgents.add(agent);
+            StatusManager.getInstance().getStatus().getAgents().add(agent);
         }
 
         return true;
@@ -83,13 +80,13 @@ public class AgentManagerImpl implements IModuleManager {
 
     @Override
     public boolean step() {
-        int taskCount = mAgents.size();
+        int taskCount = StatusManager.getInstance().getStatus().getAgents().size();
         CountDownLatch latch = new CountDownLatch(taskCount);
         for (int i = 0; i < taskCount; i++) {
             int taskId = i;
             mThreadPool.submit(() -> {
                 try {
-                    mAgents.get(taskId).step();
+                    StatusManager.getInstance().getStatus().getAgents().get(taskId).step();
                 } finally {
                     latch.countDown();
                 }
@@ -105,7 +102,7 @@ public class AgentManagerImpl implements IModuleManager {
 
         // TODO: This is just for testing, delete them
         List<Point> points = new ArrayList<>();
-        for (AgentObject mAgent : mAgents) {
+        for (AgentObject mAgent : StatusManager.getInstance().getStatus().getAgents()) {
             Double x = (Double)mAgent.getAttribute("x_location");
             Double y = (Double)mAgent.getAttribute("y_location");
             points.add(new Point(x.intValue(),y.intValue()));
@@ -113,5 +110,21 @@ public class AgentManagerImpl implements IModuleManager {
         AgentsUI.getInstance().setAgents(points);
         return true;
     }
+
+    @Override
+    public boolean preStep() {
+        return false;
+    }
+
+    @Override
+    public boolean conflictStep() {
+        return false;
+    }
+
+    @Override
+    public boolean postStep() {
+        return false;
+    }
+
 
 }

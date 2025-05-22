@@ -25,6 +25,7 @@ public class SimulationMainLoop {
         }
         mState = SimulationState.RUNNING;
         mTimer = new Timer();
+        mExecutor.step();
         mTimer.schedule(new StepTask(),mConfig.getStepIntervalMillisecond(), mConfig.getStepIntervalMillisecond());
     }
 
@@ -67,6 +68,7 @@ public class SimulationMainLoop {
         }
         mState = SimulationState.RUNNING;
         mTimer = new Timer();
+        mExecutor.step();
         mTimer.schedule(new StepTask(),mConfig.getStepIntervalMillisecond(), mConfig.getStepIntervalMillisecond());
     }
 

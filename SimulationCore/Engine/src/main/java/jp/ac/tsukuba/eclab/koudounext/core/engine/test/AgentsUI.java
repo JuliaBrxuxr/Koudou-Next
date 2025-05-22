@@ -13,7 +13,7 @@ public class AgentsUI extends JFrame {
         super("Agent Viewer");
 
         canvas = new AgentCanvas();
-        canvas.setPreferredSize(new Dimension(200, 200));
+        canvas.setPreferredSize(new Dimension(500, 500));
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().add(canvas);
@@ -24,7 +24,7 @@ public class AgentsUI extends JFrame {
 
     public void setAgents(List<Point> agents) {
         canvas.setAgents(agents);
-        canvas.repaint(); // 重新绘制
+        canvas.repaint();
     }
 
     private static class AgentCanvas extends JPanel {
@@ -42,7 +42,7 @@ public class AgentsUI extends JFrame {
 
             g.setColor(Color.RED);
             for (Point p : agents) {
-                g.fillOval(p.x, p.y, 5, 5);
+                g.fillOval(p.x, p.y, 4, 4);
             }
         }
     }

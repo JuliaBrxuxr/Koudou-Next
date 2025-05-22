@@ -14,4 +14,19 @@ public class EnvironmentManagerImpl implements IModuleManager {
     public boolean step() {
         return false;
     }
+
+    @Override
+    public boolean preStep() {
+        return false;
+    }
+
+    @Override
+    public boolean conflictStep() {
+        return false;
+    }
+
+    @Override
+    public boolean postStep() {
+        return false;
+    }
 }

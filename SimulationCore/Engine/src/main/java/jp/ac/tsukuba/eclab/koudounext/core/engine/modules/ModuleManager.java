@@ -33,6 +33,18 @@ public class ModuleManager {
 
     public void load(String moduleName) {}
 
+    public void preStep(){
+        mLoaders.forEach(IModuleManager::preStep);
+    }
+
+    public void conflictStep(){
+        mLoaders.forEach(IModuleManager::conflictStep);
+    }
+
+    public void postStep(){
+        mLoaders.forEach(IModuleManager::postStep);
+    }
+
     public void step(){
         mLoaders.forEach(IModuleManager::step);
     }

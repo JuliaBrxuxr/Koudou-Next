@@ -12,7 +12,7 @@
           "contain": "x_location"
         },{
           "movement_type": "calculate",
-          "contain": ""
+          "contain": "y_location"
         }
       ]
     }

@@ -3,11 +3,19 @@ package jp.ac.tsukuba.eclab.koudounext.core.engine.utils;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.exception.simulation.SimulationOverMaxStepException;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.exception.simulation.SimulationUnableGoPreviousOverFirstStepException;
 
+import java.io.Serializable;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class StepCounter {
+public class StepCounter implements Serializable {
     private final int MAX_STEP_COUNT;
     private final AtomicInteger mSteps = new AtomicInteger(0);
+
+    public long getFinalUpdateTimestamp() {
+        return mFinalUpdateTimestamp;
+    }
+
+    private long mFinalUpdateTimestamp;
 
     public StepCounter(int maxStepCount) {
         MAX_STEP_COUNT = maxStepCount;
@@ -18,6 +26,7 @@ public class StepCounter {
             throw new SimulationOverMaxStepException();
         }
         mSteps.incrementAndGet();
+        updateTimestamp();
     }
 
     public void decreaseStepCount() {
@@ -25,6 +34,7 @@ public class StepCounter {
             throw new SimulationUnableGoPreviousOverFirstStepException();
         }
         mSteps.decrementAndGet();
+        updateTimestamp();
     }
 
     public void decreaseStepCount(int offset){
@@ -32,6 +42,7 @@ public class StepCounter {
             throw new SimulationUnableGoPreviousOverFirstStepException();
         }
         mSteps.set(mSteps.get() - offset);
+        updateTimestamp();
     }
 
     public int getStepCount() {
@@ -44,5 +55,9 @@ public class StepCounter {
 
     public boolean isMaxStepCount() {
         return mSteps.get() == MAX_STEP_COUNT;
+    }
+
+    private void updateTimestamp(){
+        mFinalUpdateTimestamp = System.currentTimeMillis();
     }
 }

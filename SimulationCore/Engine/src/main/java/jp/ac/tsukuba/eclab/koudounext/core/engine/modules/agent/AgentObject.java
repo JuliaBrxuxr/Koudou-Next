@@ -1,20 +1,23 @@
 package jp.ac.tsukuba.eclab.koudounext.core.engine.modules.agent;
 
-import jp.ac.tsukuba.eclab.koudounext.core.engine.test.AgentsUI;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.io.Serializable;
+import java.util.*;
 
-public class AgentObject {
+public class AgentObject implements Serializable {
     private final AgentType AGENT_TYPE;
+    private final String UUID;
     private Map<String, Object> mAttributes = new HashMap<>();
     private Queue<AgentActivity> mActivities = new LinkedList<>();
     private AgentCondition mCondition;
 
     public AgentObject(AgentType type) {
         AGENT_TYPE = type;
+        UUID = java.util.UUID.randomUUID().toString();
+    }
+
+    public String getUUID() {
+        return UUID;
     }
 
     public AgentType getAgentType() {
@@ -38,9 +41,11 @@ public class AgentObject {
         // TODO: Here needs to an engine of parsing activity
 
         // TODO: DELETE! There code here are just for testing
-        double x = (Math.random() - 0.5) * 400;
-        double y = (Math.random() - 0.5) * 400;
-        updateAttribute("x_location", x);
-        updateAttribute("y_location", y);
+        double r_x = (Math.random() - 0.5) * 25;
+        double r_y = (Math.random() - 0.5) * 25;
+        double now_x = (double) getAttribute("x_location");
+        double now_y = (double) getAttribute("y_location");
+        updateAttribute("x_location", now_x + r_x);
+        updateAttribute("y_location", now_y + r_y);
     }
 }
