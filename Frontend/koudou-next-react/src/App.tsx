@@ -7,6 +7,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 // import for Sidebar
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/comps/app-sidebar";
+import { Button } from "@/components/ui/button";
 
 import L from "leaflet";
 function App() {
@@ -31,7 +32,6 @@ function App() {
     },
   ];
 
-
   const agentIcon = L.icon({
     iconUrl: "/icons/cookie-man.svg",
     iconSize: [38, 38],
@@ -39,9 +39,8 @@ function App() {
 
   return (
     <>
-
       <div className="flex h-screen w-screen overflow-hidden">
-        <div className="w-64 bg-white shadow-lg z-10">
+        <div className="w-64 bg-white shadow-lg">
           <SidebarProvider>
             <AppSidebar />
             <SidebarTrigger />
@@ -53,6 +52,9 @@ function App() {
             center={[36.0924, 139.9644]} // coordinates Tsukuba-shi
             zoom={15}
           >
+            <div className="absolute bottom-9 right-9 z-[9999] bg-purple-600 text-white !bg-purple-600 !text-white">
+              <Button variant="outline">Start Simulation</Button>
+            </div>
             <TileLayer
               url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
