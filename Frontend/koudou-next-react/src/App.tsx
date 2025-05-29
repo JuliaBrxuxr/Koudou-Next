@@ -1,8 +1,10 @@
 import "./App.css";
 import "leaflet/dist/leaflet.css";
 
+
+
 // imports for map features
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
 
 // import for Sidebar
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -10,6 +12,8 @@ import { AppSidebar } from "@/comps/app-sidebar";
 import { Button } from "@/components/ui/button";
 
 import L from "leaflet";
+
+
 function App() {
   type agentMarkerData = {
     geocode: [number, number];
@@ -37,6 +41,8 @@ function App() {
     iconSize: [38, 38],
   });
 
+   
+
   return (
     <>
       <div className="flex h-screen w-screen overflow-hidden">
@@ -52,7 +58,13 @@ function App() {
             center={[36.0924, 139.9644]} // coordinates Tsukuba-shi
             zoom={15}
           >
-            <div className="absolute bottom-9 right-9 z-[9999] bg-purple-600 text-white !bg-purple-600 !text-white">
+        
+
+          <div className="absolute bottom-9 right-48 z-[999] bg-white text-purple-600">
+              <Button variant="outline">Add agents</Button>
+            </div> 
+
+            <div className="absolute bottom-9 right-9 z-[9999] bg-purple-600 text-white">
               <Button variant="outline">Start Simulation</Button>
             </div>
             <TileLayer
@@ -72,3 +84,5 @@ function App() {
 }
 
 export default App;
+
+
