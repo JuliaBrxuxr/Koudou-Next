@@ -17,6 +17,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/comps/app-sidebar";
 import { Button } from "@/components/ui/button";
 import { LatLng } from "leaflet";
+import { LatLngExpression } from "leaflet";
 
 import L from "leaflet";
 
