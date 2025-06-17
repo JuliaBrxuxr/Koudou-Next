@@ -4,14 +4,10 @@ package jp.ac.tsukuba.eclab.koudounext.test.grpc;
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import io.grpc.Server;
-import io.grpc.ServerBuilder;
-import io.grpc.stub.StreamObserver;
 import jp.ac.tsukuba.eclab.koudounext.proto.objects.TestConditionOuterClass.TestCondition;
 import jp.ac.tsukuba.eclab.koudounext.proto.objects.TestAgentOuterClass.TestAgent;
 import jp.ac.tsukuba.eclab.koudounext.proto.service.*;
 
-import java.io.IOException;
 import java.util.UUID;
 
 public class MessageSender {

@@ -1,0 +1,59 @@
+{
+  "activities": [
+    {
+      "name": "stay",
+      "movement_list": []
+    },
+    {
+      "name": "move_randomly",
+      "movement_list": [
+        {
+          "movement_type": "calculate",
+          "contain": "x_location"
+        },{
+          "movement_type": "calculate",
+          "contain": "y_location"
+        }
+      ]
+    }
+  ],
+  "conditions": [
+    {
+      "name": "rest",
+      "activity": ""
+    }
+  ],
+  "agents": [
+    {
+      "type": "Zombie",
+      "attributes": [
+        {
+          "type": "number",
+          "name": "speed",
+          "default_value": 10.5
+        },
+        {
+          "type": "number",
+          "name": "x_location",
+          "default_value": 100
+        },
+        {
+          "type": "number",
+          "name": "y_location",
+          "default_value": 100
+        },
+        {
+          "type": "text",
+          "name": "name",
+          "default_value": ""
+        }
+      ],
+      "conditions": []
+    },
+    {
+      "type": "Civilian",
+      "attributes": [],
+      "conditions": []
+    }
+  ]
+}

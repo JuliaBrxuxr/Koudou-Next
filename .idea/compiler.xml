@@ -11,6 +11,7 @@
         <module name="Controller" />
         <module name="Proto" />
         <module name="Engine" />
+        <module name="Cache" />
       </profile>
     </annotationProcessing>
   </component>
