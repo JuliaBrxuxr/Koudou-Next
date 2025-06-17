@@ -39,7 +39,7 @@ function LocationMarker() {
     <Marker position={position} icon={agentIcon}>
       <Popup>You are here</Popup>
     </Marker>
-  );
+  ); 
 }
 
 function App() {
@@ -79,9 +79,9 @@ function App() {
             center={[36.0924, 139.9644]} // coordinates Tsukuba-shi
             zoom={15}
           >
-            <div className="absolute bottom-9 right-48 z-[999] bg-white text-purple-600">
+         {/*    <div className="absolute bottom-9 right-48 z-[999] bg-white text-purple-600">
               <Button variant="outline">Add agents</Button>
-            </div>
+            </div> */}
 
             <div className="absolute bottom-9 right-9 z-[9999] bg-purple-600 text-white">
               <Button variant="outline">Start Simulation</Button>
