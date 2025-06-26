@@ -4,7 +4,6 @@ import jp.ac.tsukuba.eclab.koudounext.core.engine.exception.simulation.Simulatio
 import jp.ac.tsukuba.eclab.koudounext.core.engine.exception.simulation.SimulationUnableGoPreviousOverFirstStepException;
 
 import java.io.Serializable;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class StepCounter implements Serializable {

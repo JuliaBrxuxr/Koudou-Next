@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimulationExecutor {
-    private ModuleManager mModuleManager;
+    private final ModuleManager mModuleManager;
 
     public SimulationExecutor(SimulationConfig config) {
         StatusManager.getInstance().getStatus().setStepCounter(new StepCounter(config.getMaxStep()));
@@ -58,15 +58,7 @@ public class SimulationExecutor {
             throw new jp.ac.tsukuba.eclab.koudounext.cache.exception.BaseException("");
         }
 
-        // TODO: This is just for testing, delete them
-        List<Point> points = new ArrayList<>();
-        for (AgentObject mAgent : StatusManager.getInstance().getStatus().getAgents()) {
-            Double x = (Double) mAgent.getAttribute("x_location");
-            Double y = (Double) mAgent.getAttribute("y_location");
-            points.add(new Point(x.intValue(), y.intValue()));
-        }
-        AgentsUI.getInstance().setAgents(points);
-
+        mModuleManager.preStep();
         // TODO: DELETE HERE AFTER DEVELOPMENT
         System.out.println("Load prev step, current count = "
                 + StatusManager.getInstance().getStatus().getStepCounter().getStepCount());
@@ -81,14 +73,7 @@ public class SimulationExecutor {
             throw new jp.ac.tsukuba.eclab.koudounext.cache.exception.BaseException("");
         }
 
-        // TODO: This is just for testing, delete them
-        List<Point> points = new ArrayList<>();
-        for (AgentObject mAgent : StatusManager.getInstance().getStatus().getAgents()) {
-            Double x = (Double) mAgent.getAttribute("x_location");
-            Double y = (Double) mAgent.getAttribute("y_location");
-            points.add(new Point(x.intValue(), y.intValue()));
-        }
-        AgentsUI.getInstance().setAgents(points);
+
         // TODO: DELETE HERE AFTER DEVELOPMENT
         System.out.println("Load prev step, current count = " + StatusManager.getInstance().getStatus().getStepCounter().getStepCount());
 

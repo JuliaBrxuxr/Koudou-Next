@@ -4,21 +4,34 @@ import jp.ac.tsukuba.eclab.koudounext.core.engine.executor.SimulationThreadPoolM
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.agent.AgentManagerImpl;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.environment.EnvironmentManagerImpl;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.expansion.ExpansionManagerImpl;
+import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.MapManagerImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 public class ModuleManager {
+    private AgentManagerImpl mAgentManager;
+    private EnvironmentManagerImpl mEnvironmentManager;
+    private MapManagerImpl mMapManager;
+    private ExpansionManagerImpl mExpansionManager;
+
     private List<IModuleManager> mLoaders = new ArrayList<>();
     private static volatile ModuleManager instance = null;
     ExecutorService mThreadPool = SimulationThreadPoolManager.getThreadPool();
 
     public ModuleManager() {
         //TODO: Just for demo, needs to refactor to Factory Pattern
-        mLoaders.add(new AgentManagerImpl(mThreadPool));
-        mLoaders.add(new EnvironmentManagerImpl());
-        mLoaders.add(new ExpansionManagerImpl());
+        mAgentManager = new AgentManagerImpl(mThreadPool);
+        mEnvironmentManager = new EnvironmentManagerImpl();
+        mMapManager = new MapManagerImpl();
+        mExpansionManager = new ExpansionManagerImpl();
+
+
+        mLoaders.add(mMapManager);
+        mLoaders.add(mExpansionManager);
+        mLoaders.add(mEnvironmentManager);
+        mLoaders.add(mAgentManager);
     }
 
     public boolean loadAll(){
@@ -58,5 +71,9 @@ public class ModuleManager {
             }
         }
         return instance;
+    }
+
+    public MapManagerImpl getMapManager(){
+        return mMapManager;
     }
 }
