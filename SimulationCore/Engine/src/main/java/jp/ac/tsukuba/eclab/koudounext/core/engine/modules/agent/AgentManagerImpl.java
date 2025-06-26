@@ -2,6 +2,10 @@ package jp.ac.tsukuba.eclab.koudounext.core.engine.modules.agent;
 
 import jp.ac.tsukuba.eclab.koudounext.core.engine.manager.status.StatusManager;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.IModuleManager;
+import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.ModuleManager;
+import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.elements.Coordinate;
+import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.elements.Node;
+import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.utils.NodeUtil;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.test.AgentsUI;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -65,14 +69,39 @@ public class AgentManagerImpl implements IModuleManager {
             }
             mAgentTypes.put(agentType.getAgentName(), agentType);
         }
-        for (int i = 0; i < 1000; i++) {
-            AgentType agentType = mAgentTypes.get("Zombie");
+
+        //TODO: JUST FOR TEST, REMOVE THEM
+        for (int i = 0; i < 500; i++) {
+            AgentType agentType = mAgentTypes.get("Human");
             AgentObject agent = new AgentObject(agentType);
-            Map<String, String> attributes = agentType.getAttributes();
-            for (String attribute : attributes.keySet()) {
-                agent.addAttribute(attribute, (Math.random()+4) * 50);
+
+
+//            double minLatitude = 36.0737;
+//            double maxLatitude = 36.1430;
+//            double minLongitude = 140.0845;
+//            double maxLongitude = 140.1233;
+
+
+            double minLatitude = 36.0750;
+            double maxLatitude = 36.1200;
+            double minLongitude = 140.0900;
+            double maxLongitude = 140.1200;
+
+            double latitude = minLatitude + (maxLatitude - minLatitude) * Math.random();
+            double longitude = minLongitude + (maxLongitude - minLongitude) * Math.random();
+            Node node = ModuleManager.getInstance().getMapManager().getRoadGraph().getNodeByIndex(
+                    NodeUtil.findNearestNodeIndex(
+                            latitude,
+                            longitude,
+                            ModuleManager.getInstance().getMapManager().getRoadGraph()));
+
+            if (node != null) {
+                agent.addAttribute("latitude", node.getCoordinate().getLatitude());
+                agent.addAttribute("longitude", node.getCoordinate().getLongitude());
+                agent.addAttribute("speed", (double)(0.5 + Math.random() / 2));
+//                agent.addAttribute("speed", (double) (0.5 + Math.random() * 5));
+                StatusManager.getInstance().getStatus().getAgents().add(agent);
             }
-            StatusManager.getInstance().getStatus().getAgents().add(agent);
         }
 
         return true;
@@ -99,20 +128,33 @@ public class AgentManagerImpl implements IModuleManager {
             throw new RuntimeException(e);
         }
 
-
-        // TODO: This is just for testing, delete them
-        List<Point> points = new ArrayList<>();
-        for (AgentObject mAgent : StatusManager.getInstance().getStatus().getAgents()) {
-            Double x = (Double)mAgent.getAttribute("x_location");
-            Double y = (Double)mAgent.getAttribute("y_location");
-            points.add(new Point(x.intValue(),y.intValue()));
+        //TODO:DELETE, JUST FOR TESTING
+        List<Coordinate> coordinates = new ArrayList<>();
+        for (AgentObject agent : StatusManager.getInstance().getStatus().getAgents()) {
+            coordinates.add(new Coordinate((double) agent.getAttribute("longitude")
+                    , (double) agent.getAttribute("latitude")));
         }
-        AgentsUI.getInstance().setAgents(points);
+        try {
+            AgentsUI.getInstance().updateAllAgentData(StatusManager.getInstance().getStatus().getAgents());
+        }catch (Exception e) {
+
+        }
         return true;
     }
 
     @Override
     public boolean preStep() {
+        //TODO:DELETE, JUST FOR TESTING
+        List<Coordinate> coordinates = new ArrayList<>();
+        for (AgentObject agent : StatusManager.getInstance().getStatus().getAgents()) {
+            coordinates.add(new Coordinate((double) agent.getAttribute("longitude")
+                    , (double) agent.getAttribute("latitude")));
+        }
+        try {
+            AgentsUI.getInstance().updateAllAgentData(StatusManager.getInstance().getStatus().getAgents());
+        }catch (Exception e) {
+
+        }
         return false;
     }
 

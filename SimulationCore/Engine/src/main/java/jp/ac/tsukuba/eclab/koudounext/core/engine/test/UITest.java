@@ -5,6 +5,7 @@ import jp.ac.tsukuba.eclab.koudounext.core.engine.exception.simulation.Simulatio
 import jp.ac.tsukuba.eclab.koudounext.core.engine.exception.simulation.SimulationAlreadyResumedException;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.exception.simulation.SimulationAlreadyStartedException;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.exception.simulation.SimulationNotPausedException;
+import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.ModuleManager;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.utils.SimulationConfig;
 
 import javax.swing.*;
@@ -24,7 +25,7 @@ public class UITest extends JDialog {
 
     public UITest() {
         setContentPane(mPanel);
-        setModal(true);
+        setModal(false);
         mController = SimulationController.getInstance();
 
         mButtonInit.addActionListener(e -> {
@@ -39,7 +40,8 @@ public class UITest extends JDialog {
                 JOptionPane.showMessageDialog(null, "Please enter a legal value!", "Illegal inputs",
                         JOptionPane.ERROR_MESSAGE);
             }
-            AgentsUI.getInstance();
+
+            AgentsUI.getInstance(ModuleManager.getInstance().getMapManager().getRoadGraph());
         });
 
         mButtonStart.addActionListener(e -> {
@@ -49,7 +51,6 @@ public class UITest extends JDialog {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Illegal action",
                         JOptionPane.ERROR_MESSAGE);
             }
-
         });
 
         mButtonResume.addActionListener(e -> {
@@ -98,6 +99,5 @@ public class UITest extends JDialog {
         UITest dialog = new UITest();
         dialog.pack();
         dialog.setVisible(true);
-        System.exit(0);
     }
 }

@@ -21,24 +21,22 @@ public class Simulation {
             public void run() {
                 try {
                     controller.startSimulation();
-                    Thread.sleep(500);
-                    controller.pauseSimulation();
-                    Thread.sleep(1000);
-                    controller.doSimulationPrevStep();
-                    Thread.sleep(1000);
-                    controller.doSimulationNextStep();
-                    Thread.sleep(1000);
-                    controller.doSimulationPrevSteps(5);
-                    Thread.sleep(1000);
-                    controller.resumeSimulation();
-                    Thread.sleep(100);
-                    controller.pauseSimulation();
-                    Thread.sleep(1000);
-                    controller.resumeSimulation();
-                } catch (InterruptedException e) {
+//                    Thread.sleep(500);
+//                    controller.pauseSimulation();
+//                    Thread.sleep(1000);
+//                    controller.doSimulationPrevStep();
+//                    Thread.sleep(1000);
+//                    controller.doSimulationNextStep();
+//                    Thread.sleep(1000);
+//                    controller.doSimulationPrevSteps(5);
+//                    Thread.sleep(1000);
+//                    controller.resumeSimulation();
+//                    Thread.sleep(100);
+//                    controller.pauseSimulation();
+//                    Thread.sleep(1000);
+//                    controller.resumeSimulation();
+                } catch (Exception e) {
                     throw new RuntimeException(e);
-                } catch (BaseException be){
-                    System.out.println("KOUDOU EXCEPTION: " + be.getMessage());
                 }
             }
         }).start();

@@ -5,7 +5,6 @@ import jp.ac.tsukuba.eclab.koudounext.cache.CacheManager;
 import jp.ac.tsukuba.eclab.koudounext.cache.exception.UnableStartCacheException;
 import jp.ac.tsukuba.eclab.koudounext.cache.exception.UnableUnserializeObjectException;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.controller.SimulationController;
-import jp.ac.tsukuba.eclab.koudounext.core.engine.utils.StepCounter;
 
 public class StatusManager {
     private static volatile StatusManager instance = null;

@@ -2,7 +2,8 @@
   "activities": [
     {
       "name": "stay",
-      "movement_list": []
+      "movement_list": [],
+      "condition":"rest"
     },
     {
       "name": "move_randomly",
@@ -19,27 +20,29 @@
   ],
   "conditions": [
     {
-      "name": "rest",
-      "activity": ""
+      "name": "rest"
+    },
+    {
+      "name": "moving"
     }
   ],
   "agents": [
     {
-      "type": "Zombie",
+      "type": "Human",
       "attributes": [
         {
           "type": "number",
           "name": "speed",
-          "default_value": 10.5
+          "default_value": 1.5
         },
         {
           "type": "number",
-          "name": "x_location",
+          "name": "longitude",
           "default_value": 100
         },
         {
           "type": "number",
-          "name": "y_location",
+          "name": "latitude",
           "default_value": 100
         },
         {

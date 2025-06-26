@@ -1,6 +1,5 @@
 package jp.ac.tsukuba.eclab.koudounext.core.engine.modules.agent;
 
-import javax.management.ObjectName;
 import java.io.Serializable;
 import java.util.*;
 
