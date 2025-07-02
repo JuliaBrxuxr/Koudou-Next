@@ -27,7 +27,7 @@ public class MapTest {
         RoadGraph graph;
         try {
             graph = new RoadGraphBuilder()
-                    .setOsmFile(new File(Objects.requireNonNull(this.getClass().getResource(osmFilepath)).getFile()))
+                    .setOsmInputStream(this.getClass().getResourceAsStream(osmFilepath))
                     .setRegionName(region)
                     .build();
             System.out.println("Nodes before LCC: " + graph.getAllNodes().size());

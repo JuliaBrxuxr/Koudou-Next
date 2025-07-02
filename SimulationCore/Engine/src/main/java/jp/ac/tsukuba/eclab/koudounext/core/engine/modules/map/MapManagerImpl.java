@@ -17,7 +17,7 @@ public class MapManagerImpl implements IModuleManager {
         String region = "tsukuba";
          try {
             roadGraph = new RoadGraphBuilder()
-                    .setOsmFile(new File(Objects.requireNonNull(this.getClass().getResource(osmFilepath)).getFile()))
+                    .setOsmInputStream(this.getClass().getResourceAsStream(osmFilepath))
                     .setRegionName(region)
                     .build();
             System.out.println("Nodes before LCC: " + roadGraph.getAllNodes().size());

@@ -9,7 +9,6 @@ import org.xml.sax.helpers.DefaultHandler;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -18,8 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RoadGraphBuilder {
-    private File osmFile;
-    private InputStream osmInputStream;
+    private InputStream mOsmInputStream;
     private String regionName = "default";
     private Map<String, Integer> speeds;
     private RoadGraph roadNetworkUnderConstruction;
@@ -53,15 +51,8 @@ public class RoadGraphBuilder {
         speeds.put("service", 5);
     }
 
-    public RoadGraphBuilder setOsmFile(File osmFile) {
-        this.osmFile = osmFile;
-        this.osmInputStream = null;
-        return this;
-    }
-
-    public RoadGraphBuilder setOsmInputStream(InputStream osmInputStream) {
-        this.osmInputStream = osmInputStream;
-        this.osmFile = null;
+    public RoadGraphBuilder setOsmInputStream(InputStream mOsmInputStream) {
+        this.mOsmInputStream = mOsmInputStream;
         return this;
     }
 
@@ -76,7 +67,7 @@ public class RoadGraphBuilder {
     }
 
     public RoadGraph build() throws ParserConfigurationException, SAXException, IOException {
-        if (this.osmFile == null && this.osmInputStream == null) {
+        if (this.mOsmInputStream == null) {
             throw new IllegalStateException("OSM data source (file or input stream) not set.");
         }
 
@@ -94,12 +85,7 @@ public class RoadGraphBuilder {
         SAXParser saxParser = factory.newSAXParser();
 
         OSMHandler handler = new OSMHandler(this.roadNetworkUnderConstruction, this.speeds, this.currentWayNodes);
-
-        if (this.osmFile != null) {
-            saxParser.parse(this.osmFile, handler);
-        } else {
-            saxParser.parse(this.osmInputStream, handler);
-        }
+        saxParser.parse(this.mOsmInputStream, handler);
 
         return this.roadNetworkUnderConstruction;
     }
