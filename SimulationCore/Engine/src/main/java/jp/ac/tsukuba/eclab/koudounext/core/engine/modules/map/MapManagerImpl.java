@@ -15,7 +15,7 @@ public class MapManagerImpl implements IModuleManager {
         //TODO: here needs to load map dynamically
         String osmFilepath = "/osm/Tx-To-TU.osm";
         String region = "tsukuba";
-        try {
+         try {
             roadGraph = new RoadGraphBuilder()
                     .setOsmFile(new File(Objects.requireNonNull(this.getClass().getResource(osmFilepath)).getFile()))
                     .setRegionName(region)
@@ -27,7 +27,12 @@ public class MapManagerImpl implements IModuleManager {
             System.err.println("Error loading map: " + ex.getMessage());
             return false;
         }
-        return true;
+        return true; 
+
+
+
+
+
     }
 
     @Override
