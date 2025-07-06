@@ -1,6 +1,6 @@
 import "./App.css";
 import "leaflet/dist/leaflet.css";
-
+import { startSimulation } from "./api/SimulationAPI.tsx";
 import { useState } from "react";
 
 // imports for map features
@@ -17,10 +17,10 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/comps/app-sidebar";
 import { Button } from "@/components/ui/button";
 import { LatLng } from "leaflet";
-import { LatLngExpression } from "leaflet";
-
 import L from "leaflet";
 
+
+// TODO: change icon
 const agentIcon = L.icon({
   iconUrl: "/icons/cookie-man.svg",
   iconSize: [38, 38],
@@ -39,7 +39,7 @@ function LocationMarker() {
     <Marker position={position} icon={agentIcon}>
       <Popup>You are here</Popup>
     </Marker>
-  ); 
+  );
 }
 
 function App() {
@@ -79,12 +79,19 @@ function App() {
             center={[36.0924, 139.9644]} // coordinates Tsukuba-shi
             zoom={15}
           >
-         {/*    <div className="absolute bottom-9 right-48 z-[999] bg-white text-purple-600">
+            {/*    <div className="absolute bottom-9 right-48 z-[999] bg-white text-purple-600">
               <Button variant="outline">Add agents</Button>
             </div> */}
 
             <div className="absolute bottom-9 right-9 z-[9999] bg-purple-600 text-white">
-              <Button variant="outline">Start Simulation</Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  startSimulation();
+                }}
+              >
+                Start Simulation
+              </Button>
             </div>
             <TileLayer
               url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
