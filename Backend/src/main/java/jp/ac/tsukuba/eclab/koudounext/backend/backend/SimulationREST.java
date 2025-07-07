@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.controller.SimulationController;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.exception.simulation.SimulationAlreadyStartedException;
+import jp.ac.tsukuba.eclab.koudounext.core.engine.exception.simulation.SimulationNotRunningException;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.utils.SimulationConfig;
+
 
 
 @RestController
@@ -22,7 +24,8 @@ public class SimulationREST {
 
          try {
             simulationController.init(config);
-            return ResponseEntity.ok("Simulation started successfully.");
+            simulationController.startSimulation();
+            return ResponseEntity.ok("Simulation initialized started successfully.");
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -30,8 +33,47 @@ public class SimulationREST {
         }
 
 
+
+
     }
 
 
+    @PostMapping("/stop")
+    public ResponseEntity <String> stopSimulation() {
+    
+ /*        try {
+            simulationController.stopSimulation();
+            return ResponseEntity.ok("Simulation stopped successfully.");
+            
+        } 
+        catch (SimulationNotRunningException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body("Simulation is not running anymore.");
+        
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("wtf: ");
+        } 
+        
+     
+    } */
+
+        try {
+        
+            simulationController.stopSimulation();
+            return ResponseEntity.ok("Simulation stopped successfully.");
+        } catch (SimulationNotRunningException e) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("Simulation is not running anymore");
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to stop simulation: " + e.getMessage());
+        }
+    }
+    
 }
 
