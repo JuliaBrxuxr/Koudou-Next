@@ -73,7 +73,7 @@ public class SimulationMainLoop {
     }
 
     public synchronized void stop() {
-        if (!mState.equals(SimulationState.RUNNING)||!mState.equals(SimulationState.PAUSED)) {
+        if (!mState.equals(SimulationState.RUNNING) && !mState.equals(SimulationState.PAUSED)) {
             throw new SimulationNotRunningException();
         }
         if (mTimer == null) {
