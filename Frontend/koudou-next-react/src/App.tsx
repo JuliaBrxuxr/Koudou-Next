@@ -1,7 +1,7 @@
 import "./App.css";
 import "leaflet/dist/leaflet.css";
 import { startSimulation } from "./api/SimulationAPI.tsx";
-import { useState } from "react";
+// import { useState } from "react";
 
 // imports for map features
 import {
@@ -9,38 +9,40 @@ import {
   TileLayer,
   Marker,
   Popup,
-  useMapEvents,
+  // useMapEvents,
 } from "react-leaflet";
 
 // import for Sidebar
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/comps/app-sidebar";
 import { Button } from "@/components/ui/button";
-import { LatLng } from "leaflet";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+// import { LatLng } from "leaflet";
 import L from "leaflet";
-
 
 // TODO: change icon
 const agentIcon = L.icon({
   iconUrl: "/icons/cookie-man.svg",
   iconSize: [38, 38],
 });
+/* 
+function LocationMarker({ position }: { position: LatLng }) {
+  if (!position) return null;
 
-function LocationMarker() {
-  const [position, setPosition] = useState<LatLng | null>(null);
-
-  useMapEvents({
-    click(e) {
-      setPosition(e.latlng);
-    },
-  });
-
-  return position === null ? null : (
+  return (
     <Marker position={position} icon={agentIcon}>
       <Popup>You are here</Popup>
     </Marker>
   );
-}
+} */
 
 function App() {
   type agentMarkerData = {
@@ -74,7 +76,7 @@ function App() {
           </SidebarProvider>
         </div>
 
-        <div className="flex-1 relative">
+        <div className="flex-1 relative h-full">
           <MapContainer
             center={[36.0924, 139.9644]} // coordinates Tsukuba-shi
             zoom={15}
@@ -83,9 +85,9 @@ function App() {
               <Button variant="outline">Add agents</Button>
             </div> */}
 
-            <div className="absolute bottom-9 right-9 z-[9999] bg-purple-600 text-white">
+            <div className="absolute bottom-9 right-9 z-[9999]">
               <Button
-                variant="outline"
+                variant="default"
                 onClick={() => {
                   startSimulation();
                 }}
@@ -93,6 +95,23 @@ function App() {
                 Start Simulation
               </Button>
             </div>
+
+            <div className="absolute inset-0 flex items-center justify-center z-[9999] pointer-events-none">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Simulation</CardTitle>
+                  <CardDescription>Card Description</CardDescription>
+                  <CardAction>Card Action</CardAction>
+                </CardHeader>
+                <CardContent>
+                  <p>Simulation is running</p>
+                </CardContent>
+                <CardFooter>
+                  <p>Card Footer</p>
+                </CardFooter>
+              </Card>
+            </div>
+
             <TileLayer
               url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -102,7 +121,6 @@ function App() {
                 <Popup>{marker.popUp}</Popup>
               </Marker>
             ))}
-            <LocationMarker />
           </MapContainer>
         </div>
       </div>
