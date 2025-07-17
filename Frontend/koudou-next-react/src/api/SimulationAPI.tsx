@@ -31,3 +31,29 @@ export async function startSimulation(): Promise<string> {
   }
 }
 
+export async function stopSimulation() {
+  try {
+    const response = await fetch("http://localhost:8080/simulation/stop", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}`);
+    }
+
+    const contentType = response.headers.get("Content-Type");
+
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json();
+      return data.message ?? "Simulation stopped.";
+    } else {
+      const text = await response.text();
+      return text || "Simulation stopped.";
+    }
+  } catch (error) {
+    console.error("Failed to stop simulation:", error);
+    return "Simulation stop failed.";
+  }
+}

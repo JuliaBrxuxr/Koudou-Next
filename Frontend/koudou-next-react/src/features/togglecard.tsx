@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { startSimulation } from "@/api/SimulationAPI.tsx";
+import { stopSimulation } from "@/api/SimulationAPI.tsx";
 import {
   Card,
   CardDescription,
@@ -31,6 +32,23 @@ export function ToggleCard() {
     }
   };
 
+  const handleStopClick = async () => {
+    setCardtoVisible(true);
+    setResult(null);
+    setError(null);
+
+    try {
+      const message = await stopSimulation();
+      setResult(message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError(String(err));
+      }
+    }
+  };
+
   return (
     <>
       <div className="absolute bottom-9 right-9 z-[50]">
@@ -49,12 +67,22 @@ export function ToggleCard() {
               </CardDescription>
             </CardHeader>
             <CardFooter>
-              <div className="w-full flex justify-center">
+              <div className="absolute inset-0 flex items-center justify-center items-center space-x-4">
                 <Button
                   onClick={() => setCardtoVisible(false)}
                   className="flex flex-col items-center mt-2 bg-gray-200 text-black"
                 >
                   Close
+                </Button>
+
+                <Button
+                  onClick={() => {
+                    handleStopClick();
+                    setCardtoVisible(true);
+                  }}
+                
+                  className="flex flex-col items-center mt-2 bg-purple-500
+                  text-white"> Stop Simulation
                 </Button>
               </div>
             </CardFooter>

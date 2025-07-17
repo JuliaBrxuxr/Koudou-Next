@@ -14,7 +14,6 @@ import {
 // import for Sidebar
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/comps/app-sidebar";
-import { Button } from "@/components/ui/button";
 import L from "leaflet";
 
 // TODO: change icon
@@ -22,6 +21,8 @@ const agentIcon = L.icon({
   iconUrl: "/icons/cookie-man.svg",
   iconSize: [38, 38],
 });
+
+
 /* 
 function LocationMarker({ position }: { position: LatLng }) {
   if (!position) return null;
