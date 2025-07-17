@@ -41,7 +41,7 @@ export function ToggleCard() {
         <div className="absolute inset-0 flex items-center justify-center z-[100]">
           <Card className="w-80 bg-white shadow-lg">
             <CardHeader>
-              <CardTitle>Simulation Running</CardTitle>
+              <CardTitle>Simulation</CardTitle>
               <CardDescription>
                 {!result && !error && <p>Loading…</p>}
                 {result && <p>{result}</p>}
@@ -49,13 +49,13 @@ export function ToggleCard() {
               </CardDescription>
             </CardHeader>
             <CardFooter>
-            <div className="w-full flex justify-center">
-              <Button
-                onClick={() => setCardtoVisible(false)}
-                className="flex flex-col items-center mt-2 bg-gray-200 text-black"
-              >
-                Close
-              </Button>
+              <div className="w-full flex justify-center">
+                <Button
+                  onClick={() => setCardtoVisible(false)}
+                  className="flex flex-col items-center mt-2 bg-gray-200 text-black"
+                >
+                  Close
+                </Button>
               </div>
             </CardFooter>
           </Card>
