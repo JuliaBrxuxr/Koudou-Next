@@ -1,8 +1,7 @@
 import "./App.css";
 import "leaflet/dist/leaflet.css";
-import { startSimulation } from "./api/SimulationAPI.tsx";
-// import { useState } from "react";
-
+import { ToggleCard } from "./features/togglecard.tsx";
+// import { startSimulation } from "@/api/SimulationAPI.tsx";
 // imports for map features
 import {
   MapContainer,
@@ -16,16 +15,6 @@ import {
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/comps/app-sidebar";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-// import { LatLng } from "leaflet";
 import L from "leaflet";
 
 // TODO: change icon
@@ -85,33 +74,8 @@ function App() {
               <Button variant="outline">Add agents</Button>
             </div> */}
 
-            <div className="absolute bottom-9 right-9 z-[9999]">
-              <Button
-                variant="default"
-                onClick={() => {
-                  startSimulation();
-                }}
-              >
-                Start Simulation
-              </Button>
-            </div>
 
-            <div className="absolute inset-0 flex items-center justify-center z-[9999] pointer-events-none">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Simulation</CardTitle>
-                  <CardDescription>Card Description</CardDescription>
-                  <CardAction>Card Action</CardAction>
-                </CardHeader>
-                <CardContent>
-                  <p>Simulation is running</p>
-                </CardContent>
-                <CardFooter>
-                  <p>Card Footer</p>
-                </CardFooter>
-              </Card>
-            </div>
-
+         
             <TileLayer
               url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -123,6 +87,13 @@ function App() {
             ))}
           </MapContainer>
         </div>
+        
+
+    
+    <div className="absolute inset-0 flex items-center justify-center z-[9999]">
+      <ToggleCard />
+    </div>
+
       </div>
     </>
   );

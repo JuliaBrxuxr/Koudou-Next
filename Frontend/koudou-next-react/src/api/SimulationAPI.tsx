@@ -2,7 +2,7 @@ type SimulationResponse = {
     message: string;
   };
 
-export async function startSimulation(): Promise <void> {
+export async function startSimulation(): Promise <string> {
     try {
       const response = await fetch("http://localhost:8080/simulation/start", {
         method: "POST",
@@ -20,8 +20,9 @@ export async function startSimulation(): Promise <void> {
       }
 
       const data: SimulationResponse = await response.json();
-      console.log("Server says:", data.message);
+      return data.message;
     } catch (error) {
       console.error("Failed to start simulation:", error);
+      throw error;
     }
     }
