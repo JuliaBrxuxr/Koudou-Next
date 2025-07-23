@@ -20,6 +20,8 @@ public class SimulationREST {
 
 private final SimulationController simulationController = SimulationController.getInstance();
 
+
+
  @PostMapping ("/start")
     public ResponseEntity <String> startSimulation(@RequestBody SimulationConfig config) {
 
