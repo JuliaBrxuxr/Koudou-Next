@@ -24,7 +24,7 @@ public class MapManagerImpl implements IModuleManager {
             double minLat = Double.MAX_VALUE, maxLat = -Double.MAX_VALUE;
 double minLon = Double.MAX_VALUE, maxLon = -Double.MAX_VALUE;
 
-for (Node node : graph.getAllNodes()) {
+/* for (Node node : graph.getAllNodes()) {
     double lat = node.getLatitude();
     double lon = node.getLongitude();
 
@@ -35,7 +35,7 @@ for (Node node : graph.getAllNodes()) {
         maxLon = Math.max(maxLon, lon);
     }
 }
-
+ */
             System.out.println("Nodes before LCC: " + roadGraph.getAllNodes().size());
             roadGraph.reduceToLargestConnectedComponent();
             System.out.println("Nodes after LCC: " + roadGraph.getAllNodes().size());
@@ -79,3 +79,4 @@ for (Node node : graph.getAllNodes()) {
         return roadGraph;
     }
 }
+ 
