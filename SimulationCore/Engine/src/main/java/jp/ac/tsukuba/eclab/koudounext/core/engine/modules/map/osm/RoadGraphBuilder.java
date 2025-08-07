@@ -1,7 +1,6 @@
 package jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm;
 
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.elements.Node;
-import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.utils.BuildingCreator;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.utils.HaversineUtil;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -27,7 +26,7 @@ public class RoadGraphBuilder {
     private Map<String, Integer> speeds;
     private RoadGraph roadNetworkUnderConstruction;
 
-    private List<Point2D.Double> buildingCentroids = new ArrayList<>();
+    private List<Point2D.Double> buildings = new ArrayList<>();
 
     private String mOsmFilePath;
     private ArrayList<Long> currentWayNodes;
@@ -99,7 +98,7 @@ public class RoadGraphBuilder {
             saxParser.parse(this.mOsmInputStream, handler);
 
 
-           roadNetworkUnderConstruction.setBuildingCentroids(handler.getBuildingCentroids());
+           roadNetworkUnderConstruction.setBuildings(handler.getBuildings());
 
 
             return this.roadNetworkUnderConstruction;
@@ -119,7 +118,7 @@ public class RoadGraphBuilder {
         private String currentWayOnewayValue;
 
         private final Map<String, Point2D.Double> nodeMap = new HashMap<>();
-        private final List<Point2D.Double> buildingCentroids = new ArrayList<>();
+        private final List<Point2D.Double> buildings = new ArrayList<>();
         private boolean isBuilding = false;
         private List<String> currentWayNodeRefs = new ArrayList<>();
 
@@ -232,7 +231,7 @@ public class RoadGraphBuilder {
                     }
                     Point2D.Double centroid = computeCentroid(points);
                     if (centroid != null) {
-                        buildingCentroids.add(centroid);
+                        buildings.add(centroid);
                     }
                 }
                 inWayElement = false;
@@ -251,8 +250,8 @@ public class RoadGraphBuilder {
             return new Point2D.Double(x / points.size(), y / points.size());
         }
 
-        public List<Point2D.Double> getBuildingCentroids() {
-            return buildingCentroids;
+        public List<Point2D.Double> getBuildings() {
+            return buildings;
         }
     }
 

@@ -47,7 +47,7 @@ public class MapAndAgentCanvas extends JPanel {
     public MapAndAgentCanvas(RoadGraph graph) {
         this.graph = graph;
         this.currentPathToDisplay = new ArrayList<>();
-        this.buildingCentroids = graph.getBuildingCentroids();
+        this.buildingCentroids = graph.getBuildings();
         this.allAgentsList = new ArrayList<>();
         computeMapBoundsAndInitialViewCenter();
         addMouseListenersAndHandler();
@@ -367,16 +367,16 @@ public class MapAndAgentCanvas extends JPanel {
             }
         }
 
-
+        // display of buildings
         if (buildingCentroids != null) {
             g2d.setColor(Color.BLUE);
             for (Point2D.Double building : buildingCentroids) {
                 Point2D.Double buildingPoint = geoToScreen(
                         building.getX(), building.getY(),
                         getWidth(), getHeight(),
-                        scaleFactor,   // whatever your current zoom level variable is
-                        viewTranslateX, // your current horizontal pan offset
-                        viewTranslateY  // your current vertical pan offset
+                        scaleFactor,
+                        viewTranslateX,
+                        viewTranslateY
                 );
                 g2d.fillOval((int) buildingPoint.getX() - 2, (int) buildingPoint.getY() - 2, 5, 5);
             }
