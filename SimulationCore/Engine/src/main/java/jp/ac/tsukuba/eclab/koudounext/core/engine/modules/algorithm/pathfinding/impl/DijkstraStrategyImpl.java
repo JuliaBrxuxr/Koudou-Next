@@ -85,7 +85,7 @@ public class DijkstraStrategyImpl implements IPathfindingStrategy {
             }
         }
 
-        if (path.isEmpty() || path.getLast() != sourceNodeId) {
+        if (path.isEmpty() || path.get(path.size() - 1) != sourceNodeId) {
             if (sourceNodeId == targetNodeId && mSetteledVertices.get(sourceNodeId) != null && mSetteledVertices.get(sourceNodeId).getDistance() == 0) {
                 if (path.isEmpty()) path.add(sourceNodeId);
             } else {

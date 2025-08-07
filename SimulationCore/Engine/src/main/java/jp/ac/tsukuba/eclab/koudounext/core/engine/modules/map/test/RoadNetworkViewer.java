@@ -32,11 +32,10 @@ public class RoadNetworkViewer extends JPanel {
 
     private List<Point2D.Double> buildingCentroids;
 
-    public RoadNetworkViewer(RoadGraph graph, List<Integer> path, List<Point2D.Double> buildingCentroids, String viewTitle) {
+    public RoadNetworkViewer(RoadGraph graph, List<Integer> path, String viewTitle) {
         JFrame frame = new JFrame(viewTitle);
         this.graph = graph;
         this.path = path != null ? path : new ArrayList<>();
-        this.buildingCentroids = buildingCentroids;
         computeMapBounds();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 800);

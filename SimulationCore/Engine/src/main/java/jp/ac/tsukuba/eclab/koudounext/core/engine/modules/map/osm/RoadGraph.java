@@ -2,7 +2,9 @@ package jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm;
 
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.elements.Edge;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.elements.Node;
+import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.utils.BuildingCreator;
 
+import java.awt.geom.Point2D;
 import java.util.*;
 
 public class RoadGraph {
@@ -14,6 +16,7 @@ public class RoadGraph {
     public ArrayList<ArrayList<Edge>> mOutgoingEdges;
     public ArrayList<ArrayList<Edge>> mIncomingEdges;
 
+    private List<Point2D.Double> buildingCentroids;
     public ArrayList<Node> mNodes;
     public Map<Long, Integer> mOsmIdToNodeIndex;
     public ArrayList<String> mRoadTypes;
@@ -21,6 +24,16 @@ public class RoadGraph {
     public RoadGraph(String regionName) {
         mRegionName = regionName;
     }
+
+    public void setBuildingCentroids(List<Point2D.Double> centroids) {
+        this.buildingCentroids = centroids;
+    }
+
+    public List<Point2D.Double> getBuildingCentroids() {
+        return this.buildingCentroids;
+    }
+
+
 
     void addNodeInternal(long osmId, double latitude, double longitude) {
         if (!mOsmIdToNodeIndex.containsKey(osmId)) {

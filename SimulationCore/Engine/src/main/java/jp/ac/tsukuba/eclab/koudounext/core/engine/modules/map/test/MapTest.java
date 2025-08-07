@@ -7,7 +7,6 @@ import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.algorithm.pathfinding.
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.RoadGraph;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.RoadGraphBuilder;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.utils.NodeUtil;
-import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.utils.BuildingCreator;
 
 
 import java.awt.geom.Point2D;
@@ -27,11 +26,6 @@ public class MapTest {
         double startLatitude = 36.092447120676034;
         double endLongitude = 140.0997849870918;
         double endLatitude = 36.11113443681083;
-        
-        BuildingCreator buildingCreator = new BuildingCreator();
-        InputStream osmInputStream = this.getClass().getResourceAsStream(osmFilepath);
-        List<Point2D.Double> buildingCentroids = buildingCreator.parse(osmInputStream);
-        
 
       
         RoadGraph graph;
@@ -83,7 +77,7 @@ public class MapTest {
         }
 
         System.out.println("Shortest path node indices: " + shortestPath);
-        new RoadNetworkViewer(graph, shortestPath, buildingCentroids, "A Star (Single Nearest Pair)");
+        new RoadNetworkViewer(graph, shortestPath, "A Star (Single Nearest Pair)");
     }
 
     public static void main(String[] args) {
