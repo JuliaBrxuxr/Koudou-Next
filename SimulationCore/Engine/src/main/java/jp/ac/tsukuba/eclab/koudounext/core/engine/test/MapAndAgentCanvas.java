@@ -4,8 +4,8 @@ import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.agent.AgentObject;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.RoadGraph;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.elements.Coordinate;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.elements.Edge;
-import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.elements.Node;
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.utils.HaversineUtil;
+import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.elements.Node;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +20,8 @@ import java.util.List;
 
 public class MapAndAgentCanvas extends JPanel {
     private final RoadGraph graph;
+
+    private List<Point2D.Double> buildingCentroids;
     private List<Integer> currentPathToDisplay;
     private List<AgentObject> allAgentsList;
     private AgentObject selectedAgent = null;
@@ -45,6 +47,7 @@ public class MapAndAgentCanvas extends JPanel {
     public MapAndAgentCanvas(RoadGraph graph) {
         this.graph = graph;
         this.currentPathToDisplay = new ArrayList<>();
+        this.buildingCentroids = graph.getBuildings();
         this.allAgentsList = new ArrayList<>();
         computeMapBoundsAndInitialViewCenter();
         addMouseListenersAndHandler();
@@ -328,6 +331,8 @@ public class MapAndAgentCanvas extends JPanel {
         return new Point2D.Double(lon, lat);
     }
 
+
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -359,6 +364,21 @@ public class MapAndAgentCanvas extends JPanel {
                         g2d.draw(new Line2D.Double(fromP, toP));
                     }
                 }
+            }
+        }
+
+        // display of buildings
+        if (buildingCentroids != null) {
+            g2d.setColor(Color.BLUE);
+            for (Point2D.Double building : buildingCentroids) {
+                Point2D.Double buildingPoint = geoToScreen(
+                        building.getX(), building.getY(),
+                        getWidth(), getHeight(),
+                        scaleFactor,
+                        viewTranslateX,
+                        viewTranslateY
+                );
+                g2d.fillOval((int) buildingPoint.getX() - 2, (int) buildingPoint.getY() - 2, 5, 5);
             }
         }
 

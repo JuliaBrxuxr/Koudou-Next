@@ -30,6 +30,8 @@ public class RoadNetworkViewer extends JPanel {
     private static final int SCALE_BAR_HEIGHT = 20;
     private static final int SCALE_BAR_MARGIN = 10;
 
+    private List<Point2D.Double> buildingCentroids;
+
     public RoadNetworkViewer(RoadGraph graph, List<Integer> path, String viewTitle) {
         JFrame frame = new JFrame(viewTitle);
         this.graph = graph;
@@ -172,6 +174,13 @@ public class RoadNetworkViewer extends JPanel {
                 }
             }
         }
+         if (buildingCentroids != null) {
+    g2d.setColor(Color.BLUE);
+    for (Point2D.Double building : buildingCentroids) {
+        Point2D buildingPoint = geoToScreen(building.getX(), building.getY(), width, height);
+        g2d.fillOval((int) buildingPoint.getX() - 2, (int) buildingPoint.getY() - 2, 5, 5);
+    }
+} 
 
         if (path.size() > 1) {
             g2d.setColor(Color.RED);
@@ -186,7 +195,7 @@ public class RoadNetworkViewer extends JPanel {
                     g2d.draw(new Line2D.Double(fromPoint, toPoint));
                 }
             }
-        }
+        } 
 
         g2d.setColor(Color.BLACK);
         g2d.drawString("Nodes: " + graph.getNumNodes(), 10, 20);

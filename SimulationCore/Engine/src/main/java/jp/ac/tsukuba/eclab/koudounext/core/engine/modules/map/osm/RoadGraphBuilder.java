@@ -9,6 +9,9 @@ import org.xml.sax.helpers.DefaultHandler;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import java.awt.geom.Point2D;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -17,10 +20,15 @@ import java.util.List;
 import java.util.Map;
 
 public class RoadGraphBuilder {
+
     private InputStream mOsmInputStream;
     private String regionName = "default";
     private Map<String, Integer> speeds;
     private RoadGraph roadNetworkUnderConstruction;
+
+    private List<Point2D.Double> buildings = new ArrayList<>();
+
+    private String mOsmFilePath;
     private ArrayList<Long> currentWayNodes;
     private boolean currentWayIsHighway;
     private String currentWayHighwayType;
@@ -51,6 +59,8 @@ public class RoadGraphBuilder {
         speeds.put("service", 5);
     }
 
+
+
     public RoadGraphBuilder setOsmInputStream(InputStream mOsmInputStream) {
         this.mOsmInputStream = mOsmInputStream;
         return this;
@@ -66,29 +76,36 @@ public class RoadGraphBuilder {
         return this;
     }
 
-    public RoadGraph build() throws ParserConfigurationException, SAXException, IOException {
-        if (this.mOsmInputStream == null) {
-            throw new IllegalStateException("OSM data source (file or input stream) not set.");
+       public RoadGraph build() throws ParserConfigurationException, SAXException, IOException {
+            if (this.mOsmInputStream == null) {
+                throw new IllegalStateException("OSM data source (file or input stream) not set.");
+            }
+
+            this.roadNetworkUnderConstruction = new RoadGraph(this.regionName);
+            this.roadNetworkUnderConstruction.mOsmIdToNodeIndex = new HashMap<>();
+            this.roadNetworkUnderConstruction.mNodes = new ArrayList<>();
+            this.roadNetworkUnderConstruction.mOutgoingEdges = new ArrayList<>();
+            this.roadNetworkUnderConstruction.mIncomingEdges = new ArrayList<>();
+            this.roadNetworkUnderConstruction.mRoadTypes = new ArrayList<>();
+            this.roadNetworkUnderConstruction.mNumNodes = 0;
+            this.roadNetworkUnderConstruction.mNumEdges = 0;
+
+
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParser saxParser = factory.newSAXParser();
+
+            OSMHandler handler = new OSMHandler(this.roadNetworkUnderConstruction, this.speeds, this.currentWayNodes);
+            saxParser.parse(this.mOsmInputStream, handler);
+
+
+           roadNetworkUnderConstruction.setBuildings(handler.getBuildings());
+
+
+            return this.roadNetworkUnderConstruction;
         }
 
-        this.roadNetworkUnderConstruction = new RoadGraph(this.regionName);
-        this.roadNetworkUnderConstruction.mOsmIdToNodeIndex = new HashMap<>();
-        this.roadNetworkUnderConstruction.mNodes = new ArrayList<>();
-        this.roadNetworkUnderConstruction.mOutgoingEdges = new ArrayList<>();
-        this.roadNetworkUnderConstruction.mIncomingEdges = new ArrayList<>();
-        this.roadNetworkUnderConstruction.mRoadTypes = new ArrayList<>();
-        this.roadNetworkUnderConstruction.mNumNodes = 0;
-        this.roadNetworkUnderConstruction.mNumEdges = 0;
 
 
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-        SAXParser saxParser = factory.newSAXParser();
-
-        OSMHandler handler = new OSMHandler(this.roadNetworkUnderConstruction, this.speeds, this.currentWayNodes);
-        saxParser.parse(this.mOsmInputStream, handler);
-
-        return this.roadNetworkUnderConstruction;
-    }
 
     private static class OSMHandler extends DefaultHandler {
         private RoadGraph roadNetwork;
@@ -99,6 +116,11 @@ public class RoadGraphBuilder {
         private boolean isCurrentWayHighway;
         private String currentWayHighwayType;
         private String currentWayOnewayValue;
+
+        private final Map<String, Point2D.Double> nodeMap = new HashMap<>();
+        private final List<Point2D.Double> buildings = new ArrayList<>();
+        private boolean isBuilding = false;
+        private List<String> currentWayNodeRefs = new ArrayList<>();
 
         public OSMHandler(RoadGraph roadNetwork, Map<String, Integer> speeds, List<Long> wayNodesListRef) {
             this.roadNetwork = roadNetwork;
@@ -118,14 +140,20 @@ public class RoadGraphBuilder {
                 double lat = Double.parseDouble(attributes.getValue("lat"));
                 double lon = Double.parseDouble(attributes.getValue("lon"));
                 roadNetwork.addNodeInternal(osmId, lat, lon);
+                String id = attributes.getValue("id");
+                nodeMap.put(id, new Point2D.Double(lon, lat));
+
             } else if ("way".equalsIgnoreCase(qName)) {
                 inWayElement = true;
                 wayNodesList.clear();
+                currentWayNodeRefs.clear();
                 isCurrentWayHighway = false;
                 currentWayHighwayType = null;
                 currentWayOnewayValue = "no";
             } else if ("nd".equalsIgnoreCase(qName) && inWayElement) {
-                wayNodesList.add(Long.parseLong(attributes.getValue("ref")));
+                String ref = attributes.getValue("ref");
+                wayNodesList.add(Long.parseLong(ref));
+                currentWayNodeRefs.add(ref); // NEW
             } else if ("tag".equalsIgnoreCase(qName) && inWayElement) {
                 String k = attributes.getValue("k");
                 String v = attributes.getValue("v");
@@ -137,6 +165,8 @@ public class RoadGraphBuilder {
                     }
                 } else if ("oneway".equals(k)) {
                     currentWayOnewayValue = v;
+                } else if ("building".equals(k)) {
+                    isBuilding = true;
                 }
             }
         }
@@ -190,8 +220,39 @@ public class RoadGraphBuilder {
                         }
                     }
                 }
+
+                if (isBuilding && currentWayNodeRefs.size() >= 3) {
+                    List<Point2D.Double> points = new ArrayList<>();
+                    for (String ref : currentWayNodeRefs) {
+                        Point2D.Double pt = nodeMap.get(ref);
+                        if (pt != null) {
+                            points.add(pt);
+                        }
+                    }
+                    Point2D.Double centroid = computeCentroid(points);
+                    if (centroid != null) {
+                        buildings.add(centroid);
+                    }
+                }
                 inWayElement = false;
+                isBuilding = false;
+                currentWayNodeRefs.clear();
             }
         }
+
+        private Point2D.Double computeCentroid(List<Point2D.Double> points) {
+            if (points.isEmpty()) return null;
+            double x = 0, y = 0;
+            for (Point2D.Double pt : points) {
+                x += pt.getX();
+                y += pt.getY();
+            }
+            return new Point2D.Double(x / points.size(), y / points.size());
+        }
+
+        public List<Point2D.Double> getBuildings() {
+            return buildings;
+        }
     }
+
 }

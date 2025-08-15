@@ -9,8 +9,11 @@ import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.RoadGraphBuild
 import jp.ac.tsukuba.eclab.koudounext.core.engine.modules.map.osm.utils.NodeUtil;
 
 
+import java.awt.geom.Point2D;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.PriorityQueue;
 
@@ -24,6 +27,7 @@ public class MapTest {
         double endLongitude = 140.0997849870918;
         double endLatitude = 36.11113443681083;
 
+      
         RoadGraph graph;
         try {
             graph = new RoadGraphBuilder()

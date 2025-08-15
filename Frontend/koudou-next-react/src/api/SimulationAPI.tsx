@@ -1,27 +1,59 @@
 type SimulationResponse = {
-    message: string;
-  };
+  message: string;
+};
 
-export async function startSimulation(): Promise <void> {
-    try {
-      const response = await fetch("http://localhost:8080/simulation/start", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          maxStep: 100,
-          stepIntervalMillisecond: 600,
-        }),
-      });
+export async function startSimulation(): Promise<string> {
+  try {
+    const response = await fetch("http://localhost:8080/simulation/start", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        maxStep: 120,
+        stepIntervalMillisecond: 600,
+      }),
+    });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error ${response.status}`);
-      }
+    const contentType = response.headers.get("Content-Type");
 
+    if (contentType && contentType.includes("application/json")) {
       const data: SimulationResponse = await response.json();
-      console.log("Server says:", data.message);
-    } catch (error) {
-      console.error("Failed to start simulation:", error);
+      return data.message;
+    } else {
+      const text = await response.text();
+      console.warn("Non-JSON response from server:", text);
+      return text;
     }
+  } catch (error) {
+    console.error("Failed to start simulation:", error);
+    return "Simulation failed.";
+  }
+}
+
+export async function stopSimulation() {
+  try {
+    const response = await fetch("http://localhost:8080/simulation/stop", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}`);
     }
+
+    const contentType = response.headers.get("Content-Type");
+
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json();
+      return data.message ?? "Simulation stopped.";
+    } else {
+      const text = await response.text();
+      return text || "Simulation stopped.";
+    }
+  } catch (error) {
+    console.error("Failed to stop simulation:", error);
+    return "Simulation stop failed.";
+  }
+}

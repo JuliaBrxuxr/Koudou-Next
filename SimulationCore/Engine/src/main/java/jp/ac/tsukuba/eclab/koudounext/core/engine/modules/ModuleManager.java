@@ -73,7 +73,7 @@ public class ModuleManager {
         return instance;
     }
 
-    public MapManagerImpl getMapManager(){
+     public MapManagerImpl getMapManager(){
         return mMapManager;
-    }
+    } 
 }

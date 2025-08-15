@@ -1,24 +1,20 @@
 import "./App.css";
 import "leaflet/dist/leaflet.css";
-import { startSimulation } from "./api/SimulationAPI.tsx";
-import { useState } from "react";
-
+import { ToggleCard } from "./features/togglecard.tsx";
+// import { startSimulation } from "@/api/SimulationAPI.tsx";
 // imports for map features
 import {
   MapContainer,
   TileLayer,
   Marker,
   Popup,
-  useMapEvents,
+  // useMapEvents,
 } from "react-leaflet";
 
 // import for Sidebar
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/comps/app-sidebar";
-import { Button } from "@/components/ui/button";
-import { LatLng } from "leaflet";
 import L from "leaflet";
-
 
 // TODO: change icon
 const agentIcon = L.icon({
@@ -26,21 +22,17 @@ const agentIcon = L.icon({
   iconSize: [38, 38],
 });
 
-function LocationMarker() {
-  const [position, setPosition] = useState<LatLng | null>(null);
 
-  useMapEvents({
-    click(e) {
-      setPosition(e.latlng);
-    },
-  });
+/* 
+function LocationMarker({ position }: { position: LatLng }) {
+  if (!position) return null;
 
-  return position === null ? null : (
+  return (
     <Marker position={position} icon={agentIcon}>
       <Popup>You are here</Popup>
     </Marker>
   );
-}
+} */
 
 function App() {
   type agentMarkerData = {
@@ -74,7 +66,7 @@ function App() {
           </SidebarProvider>
         </div>
 
-        <div className="flex-1 relative">
+        <div className="flex-1 relative h-full">
           <MapContainer
             center={[36.0924, 139.9644]} // coordinates Tsukuba-shi
             zoom={15}
@@ -83,16 +75,8 @@ function App() {
               <Button variant="outline">Add agents</Button>
             </div> */}
 
-            <div className="absolute bottom-9 right-9 z-[9999] bg-purple-600 text-white">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  startSimulation();
-                }}
-              >
-                Start Simulation
-              </Button>
-            </div>
+
+         
             <TileLayer
               url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -102,9 +86,15 @@ function App() {
                 <Popup>{marker.popUp}</Popup>
               </Marker>
             ))}
-            <LocationMarker />
           </MapContainer>
         </div>
+        
+
+    
+    <div className="absolute inset-0 flex items-center justify-center z-[9999]">
+      <ToggleCard />
+    </div>
+
       </div>
     </>
   );
