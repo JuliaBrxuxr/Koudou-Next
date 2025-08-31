@@ -1,14 +1,14 @@
 import "./App.css";
 import "leaflet/dist/leaflet.css";
 import { ToggleCard } from "./features/togglecard.tsx";
-// import { startSimulation } from "@/api/SimulationAPI.tsx";
+
 // imports for map features
 import {
   MapContainer,
   TileLayer,
   Marker,
   Popup,
-  // useMapEvents,
+
 } from "react-leaflet";
 
 // import for Sidebar
@@ -22,19 +22,11 @@ const agentIcon = L.icon({
   iconSize: [38, 38],
 });
 
-
-/* 
-function LocationMarker({ position }: { position: LatLng }) {
-  if (!position) return null;
-
-  return (
-    <Marker position={position} icon={agentIcon}>
-      <Popup>You are here</Popup>
-    </Marker>
-  );
-} */
-
 function App() {
+
+  
+  //TODO: agents currently hardcoded. Needs to be updated with the data of agents from the SimulationCore
+
   type agentMarkerData = {
     geocode: [number, number];
     popUp: string;
@@ -71,12 +63,8 @@ function App() {
             center={[36.0924, 139.9644]} // coordinates Tsukuba-shi
             zoom={15}
           >
-            {/*    <div className="absolute bottom-9 right-48 z-[999] bg-white text-purple-600">
-              <Button variant="outline">Add agents</Button>
-            </div> */}
-
-
          
+
             <TileLayer
               url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -88,13 +76,10 @@ function App() {
             ))}
           </MapContainer>
         </div>
-        
 
-    
-    <div className="absolute inset-0 flex items-center justify-center z-[9999]">
-      <ToggleCard />
-    </div>
-
+        <div className="absolute inset-0 flex items-center justify-center z-[9999]">
+          <ToggleCard />
+        </div>
       </div>
     </>
   );
